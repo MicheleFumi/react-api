@@ -8,13 +8,26 @@ const initialFormData =
     published: false
 }
 
+const url = 'http://localhost:3000/post'
 
 export default function AppMain() {
 
     const [titles, setTitles] = useState(titleArray)
     const [formData, setFormData] = useState(initialFormData)
+    const [blogDataApi, setBlogDataApi] = useState({})
 
+    function fetchData() {
+        fetch(url)
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
 
+                setBlogDataApi(data)
+            }
+            )
+    }
+
+    useEffect(fetchData, [])
     function handleFormSubmit(e) {
         e.preventDefault()
 

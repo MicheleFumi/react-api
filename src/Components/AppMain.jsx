@@ -126,8 +126,8 @@ export default function AppMain() {
                                     <h3>{post.title}</h3>
                                     <div>{post.slugs}</div>
                                     <div>{post.content}</div>
-                                    <img src={`${url}${post.image}`} alt="" />
-                                    <div><strong>{post.tags.join(", ")}</strong></div>
+                                    <img className='pt-2' src={`${url}${post.image}`} alt="" />
+                                    <div className='py-2'><strong>{post.tags.join(", ")}</strong></div>
                                 </div>
                             )) :
                             <p>test failed</p>

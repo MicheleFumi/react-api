@@ -127,7 +127,7 @@ export default function AppMain() {
                                     <div>{post.slugs}</div>
                                     <div>{post.content}</div>
                                     <img src={`${url}${post.image}`} alt="" />
-                                    <div><strong>{post.tags}</strong></div>
+                                    <div><strong>{post.tags.join(", ")}</strong></div>
                                 </div>
                             )) :
                             <p>test failed</p>

@@ -8,7 +8,8 @@ const initialFormData =
     published: false
 }
 
-const url = 'http://localhost:3000/post'
+const url = 'http://localhost:3000'
+const endpoint = '/post'
 
 export default function AppMain() {
 
@@ -17,7 +18,7 @@ export default function AppMain() {
     const [blogDataApi, setBlogDataApi] = useState({})
 
     function fetchData() {
-        fetch(url)
+        fetch(`${url}${endpoint}`)
             .then(resp => resp.json())
             .then(data => {
                 console.log(data);

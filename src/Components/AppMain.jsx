@@ -115,8 +115,23 @@ export default function AppMain() {
 
 
                     </li>)}
+                    <h2 className='my-2'>Altri titoli</h2>
 
+                    <ul className="list-group mt-4">
 
+                        {blogDataApi.data ?
+                            blogDataApi.data.map((post, index) => (
+                                <div className="list-group-item mx-4" key={index}>
+                                    <h3>{post.title}</h3>
+                                    <div>{post.slugs}</div>
+                                    <div>{post.content}</div>
+                                    <img src={`${url}${post.image}`} alt="" />
+                                    <div><strong>{post.tags}</strong></div>
+                                </div>
+                            )) :
+                            <p>test failed</p>
+                        }
+                    </ul>
                 </ul>
             </div>
 

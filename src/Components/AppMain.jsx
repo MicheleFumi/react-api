@@ -5,7 +5,7 @@ const initialFormData =
     content: '',
     image: '',
     tags: [],
-    published: false
+
 }
 const tagList = ["Dolci", "Primi piatti", "Ricette vegetariane", "Ricette nucleari"]
 const url = 'http://localhost:3000'
@@ -55,12 +55,7 @@ export default function AppMain() {
 
     }
 
-    function handleFormTag(e) {
-        const { value, checked } = e.target
-        console.log(value, checked);
 
-
-    }
 
 
     function handleRemoveTitle(e) {
@@ -90,9 +85,9 @@ export default function AppMain() {
     /* 
         function handleChangeTitle(e) {
             const selectedTitle = e.target.getAttribute('data-id')
-    
+     
             const newModifiedTitle = prompt("Modifica il titolo", selectedTitle);
-    
+     
             fetch(`${url}${endpoint}${selectedTitle}`, {
                 method: 'PUT',
                 headers: {
@@ -111,10 +106,11 @@ export default function AppMain() {
      */
     function handleFormField(e) {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value
-        });
+        console.log(name);
+
+
+
+
     }
 
 
@@ -137,7 +133,7 @@ export default function AppMain() {
                         <div>
                             {tagList.map((tag, index) => (
                                 <div key={index} className="form-check form-check-inline">
-                                    <input className="form-check-input" type="checkbox" checked={blogDataApi.tags} onChange={handleFormTag} />
+                                    <input className="form-check-input" type="checkbox" name={tag} checked={blogDataApi.tags} onChange={handleFormField} />
                                     <label className="form-check-label" htmlFor="flexCheckDefault">{tag}</label>
                                 </div>
                             ))}

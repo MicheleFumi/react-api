@@ -13,7 +13,6 @@ const endpoint = '/post/'
 
 export default function AppMain() {
 
-    const [titles, setTitles] = useState(titleArray)
     const [formData, setFormData] = useState(initialFormData)
     const [blogDataApi, setBlogDataApi] = useState({})
 
@@ -30,18 +29,27 @@ export default function AppMain() {
     useEffect(fetchData, [])
 
 
-
-
-
-
     function handleFormSubmit(e) {
         e.preventDefault()
 
-        const newTitle = {
+        const newRecipe = {
             id: Date.now(),
             ...formData
         }
-        setTitles([...titles, newTitle])
+        fetch(`${url}${endpoint}`, {
+            method: 'POST',
+            body: JSON.stringify(newRecipe),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log('success!:', res);
+                setBlogDataApi(res.data)
+            })
+
+
         setFormData(initialFormData);
 
     }
@@ -73,21 +81,28 @@ export default function AppMain() {
 
 
     }
-
-    function handleChangeTitle(e) {
-        const selectedTitle = e.target.getAttribute('data-id')
-
-        const newModifiedTitle = prompt("Modifica il titolo", selectedTitle);
-        e.preventDefault()
-        const updatedTitles = titles.map(title => {
-            if (title.title === selectedTitle) {
-                return { ...title, title: newModifiedTitle };
-            }
-            return title;
-        });
-        setTitles(updatedTitles)
-    }
-
+    /* 
+        function handleChangeTitle(e) {
+            const selectedTitle = e.target.getAttribute('data-id')
+    
+            const newModifiedTitle = prompt("Modifica il titolo", selectedTitle);
+    
+            fetch(`${url}${endpoint}${selectedTitle}`, {
+                method: 'PUT',
+                headers: {
+                    'content-Type': 'application/json'
+                }
+            })
+            e.preventDefault()
+            const updatedTitles = titles.map(title => {
+                if (blogDataApi.title === selectedTitle) {
+                    return { ...title, title: newModifiedTitle };
+                }
+                return title;
+            });
+            setTitles(updatedTitles)
+        }
+     */
     function handleFormField(e) {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -106,13 +121,13 @@ export default function AppMain() {
             <div className="container">
                 <form onSubmit={handleFormSubmit}>
                     <div className="input-group my-5">
-                        <input type="text" name='title' className="form-control" placeholder="Inserisci un titolo" aria-label="Inserisci un titolo " aria-describedby="button-addon2" value={formData.title} onChange={handleFormField} />
-                        <input type="text" name='platforms' className="form-control" placeholder="Inserisci le piattaforme" aria-label="Inserisci le piattaforme " aria-describedby="button-addon2" value={formData.platforms} onChange={handleFormField} />
+                        <input type="text" name='title' className="form-control" placeholder="Inserisci un titolo" aria-label="Inserisci un titolo " aria-describedby="button-addon2" value={blogDataApi.title} onChange={handleFormField} />
+                        <input type="text" name='platforms' className="form-control" placeholder="aggiungi un'immagine" aria-label="aggiungi un'immagine " aria-describedby="button-addon2" value={blogDataApi.image} onChange={handleFormField} />
                     </div>
                     <div className="input-group my-5">
-                        <input type="text" className="form-control" placeholder="Inserisci l'autore" aria-label="Inserisci l'autore " aria-describedby="button-addon2" name='author' value={formData.author} onChange={handleFormField} />
+                        <input type="text" className="form-control" placeholder="Inserisci una descrizione" aria-label="Inserisci una descrizione " aria-describedby="button-addon2" name='content' value={blogDataApi.content} onChange={handleFormField} />
                         <div className="form-check ms-3">
-                            <input className="form-check-input" type="checkbox" name='published' value={formData.published} onChange={handleFormField} id="" />
+                            <input className="form-check-input" type="checkbox" name='published' value={blogDataApi.published} onChange={handleFormField} id="" />
                             <label className="form-check-label"> pubblicato </label>
                         </div>
 
@@ -139,8 +154,8 @@ export default function AppMain() {
                                 <div>{post.slugs}</div>
                                 <div>{post.content}</div>
                                 <img className='pt-2' src={`${url}${post.image}`} alt="" />
-                                <div className='py-2'><strong>{post.tags.join(", ")}</strong></div>
-                                <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-id={post.title}>Cambia</button>
+                                {/*   <div className='py-2'><strong>{post.tags.join(", ")}</strong></div> */}
+                                {/*  <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-id={post.title}>Cambia</button> */}
                                 <button className='btn btn-danger' onClick={handleRemoveTitle} data-id={post.slug}>Rimuovi</button>
                             </div>
                         )) :

@@ -75,7 +75,7 @@ export default function AppMain() {
         setBlogDataApi((prevState) => {
             return {
                 ...prevState,
-                data: prevState.data.filter((post) => post.slug !== titleToRemove),
+                data: prevState.data.filter(index => index !== Number(titleToRemove)),
             };
         });
 
@@ -156,7 +156,7 @@ export default function AppMain() {
                                 <img className='pt-2' src={`${url}${post.image}`} alt="" />
                                 {/*   <div className='py-2'><strong>{post.tags.join(", ")}</strong></div> */}
                                 {/*  <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-id={post.title}>Cambia</button> */}
-                                <button className='btn btn-danger' onClick={handleRemoveTitle} data-id={post.slug}>Rimuovi</button>
+                                <button className='btn btn-danger' onClick={handleRemoveTitle} data-id={index}>Rimuovi</button>
                             </div>
                         )) :
                         <p>test failed</p>

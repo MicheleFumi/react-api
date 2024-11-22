@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import titleArray from '../Data/db.jsx'
 const initialFormData =
 {
     title: '',
-    platforms: '',
-    author: '',
+    content: '',
+    image: '',
+    tags: '',
     published: false
 }
 
@@ -31,6 +31,7 @@ export default function AppMain() {
 
     function handleFormSubmit(e) {
         e.preventDefault()
+        console.log(formData);
 
         const newRecipe = {
             id: Date.now(),
@@ -46,11 +47,11 @@ export default function AppMain() {
             .then(res => res.json())
             .then(res => {
                 console.log('success!:', res);
-                setBlogDataApi(res.data)
+                setBlogDataApi(res)
             })
 
 
-        setFormData(initialFormData);
+
 
     }
 
@@ -70,9 +71,9 @@ export default function AppMain() {
             .then(res => res.json())
             .then(res => {
                 console.log(res);
-
+                setBlogDataApi(res)
             })
-        setBlogDataApi(res.data)
+
 
 
 
@@ -119,7 +120,7 @@ export default function AppMain() {
                 <form onSubmit={handleFormSubmit}>
                     <div className="input-group my-5">
                         <input type="text" name='title' className="form-control" placeholder="Inserisci un titolo" aria-label="Inserisci un titolo " aria-describedby="button-addon2" value={blogDataApi.title} onChange={handleFormField} />
-                        <input type="text" name='platforms' className="form-control" placeholder="aggiungi un'immagine" aria-label="aggiungi un'immagine " aria-describedby="button-addon2" value={blogDataApi.image} onChange={handleFormField} />
+                        <input type="text" name='image' className="form-control" placeholder="aggiungi un'immagine" aria-label="aggiungi un'immagine " aria-describedby="button-addon2" value={blogDataApi.image} onChange={handleFormField} />
                     </div>
                     <div className="input-group my-5">
                         <input type="text" className="form-control" placeholder="Inserisci una descrizione" aria-label="Inserisci una descrizione " aria-describedby="button-addon2" name='content' value={blogDataApi.content} onChange={handleFormField} />

@@ -72,12 +72,9 @@ export default function AppMain() {
                 console.log(res);
 
             })
-        setBlogDataApi((prevState) => {
-            return {
-                ...prevState,
-                data: prevState.data.filter(index => index !== Number(titleToRemove)),
-            };
-        });
+        setBlogDataApi(res.data)
+
+
 
 
     }

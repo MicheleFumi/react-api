@@ -1,0 +1,56 @@
+header {
+    box-shadow: 0px 0px 10px black;
+    background-color: rgb(255, 248, 220);
+    position: sticky;
+    overflow: hidden;
+    z-index: 100;
+
+}
+
+main {
+    overflow: scroll;
+    height: calc(100vh - 88px);
+    background-color: rgb(0, 234, 255);
+}
+
+.card-header {
+    background-color: rgb(248, 181, 10) !important;
+}
+
+.card {
+    position: relative;
+}
+
+.card .btn-danger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+
+}
+
+
+.card-description {
+
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    border-top: 1px solid #ddd;
+    margin-top: 0.5rem;
+}
+
+.card-bottom {
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: #333;
+    text-align: left;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+    height: 60px;
+}

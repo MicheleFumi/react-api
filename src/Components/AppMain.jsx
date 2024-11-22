@@ -105,14 +105,33 @@ export default function AppMain() {
         }
      */
     function handleFormField(e) {
-        const { name, value, type, checked } = e.target;
+        const { name, value, } = e.target;
         console.log(name);
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
 
 
 
 
     }
+    function handleChecks(e) {
+        const { value, checked } = e.target;
+        if (checked) {
 
+            setFormData({
+                ...formData,
+                tags: [...formData.tags, value]
+            });
+        } else {
+            // Se il checkbox è deselezionato, rimuovi il tag dall'array
+            setFormData({
+                ...formData,
+                tags: formData.tags.filter(tag => tag !== value)
+            });
+        }
+    }
 
     return (
         <main>
@@ -133,7 +152,7 @@ export default function AppMain() {
                         <div>
                             {tagList.map((tag, index) => (
                                 <div key={index} className="form-check form-check-inline">
-                                    <input className="form-check-input" type="checkbox" name={tag} checked={blogDataApi.tags} onChange={handleFormField} />
+                                    <input className="form-check-input" type="checkbox" name={tag} value={tag} checked={formData.tags.includes(tag)} onChange={handleChecks} />
                                     <label className="form-check-label" htmlFor="flexCheckDefault">{tag}</label>
                                 </div>
                             ))}
@@ -162,7 +181,7 @@ export default function AppMain() {
                                 <div>{post.slugs}</div>
                                 <div>{post.content}</div>
                                 <img className='pt-2' src={`${url}${post.image}`} alt="" />
-                                {/*   <div className='py-2'><strong>{post.tags.join(", ")}</strong></div> */}
+                                <div className='py-2'><strong>{post.tags.join(", ")}</strong></div>
                                 {/*  <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-id={post.title}>Cambia</button> */}
                                 <button className='btn btn-danger' onClick={handleRemoveTitle} data-id={index}>Rimuovi</button>
                             </div>

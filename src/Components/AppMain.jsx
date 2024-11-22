@@ -9,7 +9,7 @@ const initialFormData =
 }
 
 const url = 'http://localhost:3000'
-const endpoint = '/post'
+const endpoint = '/post/'
 
 export default function AppMain() {
 
@@ -27,8 +27,13 @@ export default function AppMain() {
             }
             )
     }
-
     useEffect(fetchData, [])
+
+
+
+
+
+
     function handleFormSubmit(e) {
         e.preventDefault()
 
@@ -41,28 +46,48 @@ export default function AppMain() {
 
     }
 
-
-
     function handleRemoveTitle(e) {
-        const titleToRemove = Number(e.target.getAttribute('data-index'))
-        const newTitles = titles.filter(index => titleToRemove != index)
+        e.preventDefault()
 
-        setTitles(newTitles)
+        const titleToRemove = e.target.getAttribute('data-id')
+        console.log(titleToRemove);
+
+
+        fetch(`${url}${endpoint}${titleToRemove}`, {
+            method: 'DELETE',
+            headers: {
+                'content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+
+            })
+        setBlogDataApi((prevState) => {
+            return {
+                ...prevState,
+                data: prevState.data.filter((post) => post.slug !== titleToRemove),
+            };
+        });
+
+
     }
 
-    function handleChangeTitle(index) {
-        const newModifiedTitle = prompt("Modifica il titolo", newTitle[index].title);
+    function handleChangeTitle(e) {
+        const selectedTitle = e.target.getAttribute('data-id')
 
-        if (newModifiedTitle !== null && newModifiedTitle !== '') {
-            const updatedTitles = titles.map((title, i) => {
-                if (i === index) {
-                    return { ...title, title: newModifiedTitle };
-                }
-                return title;
-            });
-            setTitles(updatedTitles);
-        }
+        const newModifiedTitle = prompt("Modifica il titolo", selectedTitle);
+        e.preventDefault()
+        const updatedTitles = titles.map(title => {
+            if (title.title === selectedTitle) {
+                return { ...title, title: newModifiedTitle };
+            }
+            return title;
+        });
+        setTitles(updatedTitles)
     }
+
     function handleFormField(e) {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -70,6 +95,8 @@ export default function AppMain() {
             [name]: type === 'checkbox' ? checked : value
         });
     }
+
+
 
 
     return (
@@ -101,41 +128,28 @@ export default function AppMain() {
 
 
 
-                <h2 >Titoli Di Oggi</h2>
-                <ul className="list-group mt-4  ">
-                    {titles.map((title, index) => <li className="list-group-item d-flex justify-content-between mx-4" key={index}>
-                        <div>
-                            <h3>{title.title}</h3>
-                            <div><strong>Piattaforme:</strong> {title.platforms}</div>
-                            <div><strong>Autore:</strong> {title.author}</div>
-                        </div>
-                        <div>
-                            <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-index={index}>Cambia</button>
-                            <button className='btn btn-danger' onClick={handleRemoveTitle} data-index={index}>Rimuovi</button>
-                        </div>
+                <h2 className='my-2'>Altri titoli</h2>
 
+                <ul className="list-group mt-4">
 
-                    </li>)}
-                    <h2 className='my-2'>Altri titoli</h2>
-
-                    <ul className="list-group mt-4">
-
-                        {blogDataApi.data ?
-                            blogDataApi.data.map((post, index) => (
-                                <div className="list-group-item mx-4" key={index}>
-                                    <h3>{post.title}</h3>
-                                    <div>{post.slugs}</div>
-                                    <div>{post.content}</div>
-                                    <img className='pt-2' src={`${url}${post.image}`} alt="" />
-                                    <div className='py-2'><strong>{post.tags.join(", ")}</strong></div>
-                                </div>
-                            )) :
-                            <p>test failed</p>
-                        }
-                    </ul>
+                    {blogDataApi.data ?
+                        blogDataApi.data.map((post, index) => (
+                            <div className="list-group-item mx-4" key={index}>
+                                <h3>{post.title}</h3>
+                                <div>{post.slugs}</div>
+                                <div>{post.content}</div>
+                                <img className='pt-2' src={`${url}${post.image}`} alt="" />
+                                <div className='py-2'><strong>{post.tags.join(", ")}</strong></div>
+                                <button className='btn btn-warning me-2' onClick={handleChangeTitle} data-id={post.title}>Cambia</button>
+                                <button className='btn btn-danger' onClick={handleRemoveTitle} data-id={post.slug}>Rimuovi</button>
+                            </div>
+                        )) :
+                        <p>test failed</p>
+                    }
                 </ul>
+
             </div>
 
-        </main>
+        </main >
     )
 }

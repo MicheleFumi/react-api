@@ -4,10 +4,10 @@ const initialFormData =
     title: '',
     content: '',
     image: '',
-    tags: '',
+    tags: [],
     published: false
 }
-
+const tagList = ["Dolci", "Primi piatti", "Ricette vegetariane", "Ricette nucleari"]
 const url = 'http://localhost:3000'
 const endpoint = '/post/'
 
@@ -54,6 +54,14 @@ export default function AppMain() {
 
 
     }
+
+    function handleFormTag(e) {
+        const { value, checked } = e.target
+        console.log(value, checked);
+
+
+    }
+
 
     function handleRemoveTitle(e) {
         e.preventDefault()
@@ -110,8 +118,6 @@ export default function AppMain() {
     }
 
 
-
-
     return (
         <main>
 
@@ -124,16 +130,24 @@ export default function AppMain() {
                     </div>
                     <div className="input-group my-5">
                         <input type="text" className="form-control" placeholder="Inserisci una descrizione" aria-label="Inserisci una descrizione " aria-describedby="button-addon2" name='content' value={blogDataApi.content} onChange={handleFormField} />
-                        <div className="form-check ms-3">
-                            <input className="form-check-input" type="checkbox" name='published' value={blogDataApi.published} onChange={handleFormField} id="" />
-                            <label className="form-check-label"> pubblicato </label>
-                        </div>
-
-
                     </div>
-                    <button className="btn btn-primary btn-lg mb-3 " type="submit">
-                        <i className="bi bi-plus"></i> Add
-                    </button>
+                    <h3 htmlFor="tags" className="form-label">categorie</h3>
+                    <div className="mb-3 d-flex">
+
+                        <div>
+                            {tagList.map((tag, index) => (
+                                <div key={index} className="form-check form-check-inline">
+                                    <input className="form-check-input" type="checkbox" checked={blogDataApi.tags} onChange={handleFormTag} />
+                                    <label className="form-check-label" htmlFor="flexCheckDefault">{tag}</label>
+                                </div>
+                            ))}
+                            <button className="btn btn-primary btn-lg mb-3 px-2 py-1" type="submit">
+                                <i className="bi bi-plus"></i> aggiungi ricetta
+                            </button>
+                        </div>
+                    </div>
+
+
                 </form>
 
 
